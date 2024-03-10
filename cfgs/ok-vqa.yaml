@@ -1,0 +1,58 @@
+path:
+  raw: './temp/okvqa/'
+  cache: './temp/okvqa/cache'
+  img: './temp/mscoco/' # raw image path
+  img_ids: './data/img_ids/' # mscoco image id
+  feat_ids: './data/img_ids/trainval36_imgid2idx.json' # image id to feature matrix index
+  img_feat: './temp/mscoco_imgfeat'
+  rcnn: './temp/mscoco_imgfeat/' # the downloaded tsv path
+  kb: './temp/kbdata/conceptnet-assertions-5.7.0.csv.gz' # raw downloaded knowledge
+  knowledge: './temp/kbdata/knowledge.json'
+  knowledge_embed: './temp/kbdata/knowledge_embed.pt' # pre-trained embedding
+
+run:
+  seed: 1111
+  num_workers: 0
+  output_path: './temp/output/okvqa/'
+  min_occurance: 3 # answer frequency less than min will be omitted
+  epochs: 20
+  lr: 1.0e-5
+  dropout: 0.0 # dropout rate for the final mlp
+  weight_decay: 1.0e-4
+  lr_scheduler: True # False for visual bert
+
+train:
+  loss_type: 'ce' # 'bce' or 'ce'
+  hidden_size: 768 # follow bert settings
+  q_max_len: 20 # max question length
+  k_max_len: 10 # max knowledge length per triplet
+  k_max_num: 5 # max utilized knowledge triplets
+  num_fix_layer: 0 # number of fixed bert layers (middle)
+
+image: # pre-extracted image settings
+  num_features: 2048
+  num_boxes: 36
+
+transformer:
+  model_name: 'vilt'
+  checkpoint_token: "dandelin/vilt-b32-finetuned-vqa"
+  checkpoint_model: "dandelin/vilt-b32-finetuned-vqa"
+  tokenizer: "BertTokenizerFast"
+  vlp_model: "ViltForQuestionAnswering"
+  img_embed: False # whether use the extracted image feature
+
+# transformer:
+#   model_name: 'lxmert'
+#   checkpoint_token: "unc-nlp/lxmert-base-uncased"
+#   checkpoint_model: "unc-nlp/lxmert-base-uncased"
+#   tokenizer: "BertTokenizerFast"
+#   vlp_model: "LxmertForQuestionAnswering"
+#   img_embed: True # whether use the extracted image feature
+
+# transformer:
+#   model_name: 'visualbert'
+#   checkpoint_token: "bert-base-uncased"
+#   checkpoint_model: "uclanlp/visualbert-vqa"
+#   tokenizer: "BertTokenizerFast"
+#   vlp_model: "VisualBertForQuestionAnswering"
+#   img_embed: True # whether use the extracted image feature
