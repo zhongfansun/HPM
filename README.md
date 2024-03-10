@@ -1,6 +1,6 @@
 # Breaking the Barrier Between Pre-training and Fine-tuning: A Hybrid Prompting Model for Knowledge-Based VQA
 
-Official implementation for the MM'23 paper.
+Official implementation for the MM'23 paper. The corresponding preprocessed data and preprocessing methods will be continuously updated.
 
 ## Prerequisites
 * python==3.7
